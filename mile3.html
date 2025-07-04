@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Milestone 3 - Full Feature</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      color: white;
+      text-align: center;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #0e0e0e;
+      position: relative;
+    }
+
+    .background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .sphere {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, #6a11cb, #2575fc);
+      opacity: 0.15;
+      animation: float 20s infinite ease-in-out alternate;
+    }
+
+    .sphere:nth-child(1) {
+      width: 400px;
+      height: 400px;
+      top: 10%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .sphere:nth-child(2) {
+      width: 300px;
+      height: 300px;
+      top: 50%;
+      left: 60%;
+      animation-delay: 3s;
+    }
+
+    .sphere:nth-child(3) {
+      width: 250px;
+      height: 250px;
+      top: 30%;
+      left: 40%;
+      animation-delay: 6s;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+      100% {
+        transform: translate(40px, -30px) scale(1.1);
+      }
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+
+    input, select {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+      width: 220px;
+    }
+
+    button {
+      padding: 10px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    #avatarPreview {
+      margin: 20px;
+    }
+
+    img {
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    #downloadLink {
+      display: none;
+      background-color: white;
+      color: #2575fc;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    #downloadLink:hover {
+      background-color: #e6e6e6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 3D Background -->
+  <div class="background">
+    <div class="sphere"></div>
+    <div class="sphere"></div>
+    <div class="sphere"></div>
+  </div>
+
+  <!-- UI Elements -->
+  <h1>Live Preview Avatar Generator</h1>
+  <input type="text" id="username" placeholder="Enter username" /><br>
+  <label>Set:</label>
+  <select id="set">
+    <option value="set1">Robots</option>
+    <option value="set2">Monsters</option>
+    <option value="set3">Cats</option>
+    <option value="set4">Heads</option>
+  </select>
+  <input type="text" id="size" value="200x200" placeholder="Size" />
+  <br><br>
+  <button onclick="generateAvatar()">Generate Avatar</button>
+  <div id="avatarPreview"></div>
+  <a id="downloadLink" href="#" download="avatar.png">⬇ Download Avatar</a>
+
+  <script>
+    function generateAvatar() {
+      const username = document.getElementById('username').value.trim();
+      const set = document.getElementById('set').value;
+      const size = document.getElementById('size').value || '200x200';
+
+      if (!username) {
+        alert("Enter a username.");
+        return;
+      }
+
+      const url = `https://robohash.org/${encodeURIComponent(username)}.png?set=${set}&size=${size}`;
+
+      document.getElementById('avatarPreview').innerHTML = `<img src="${url}" width="200">`;
+
+      const download = document.getElementById('downloadLink');
+      download.href = url;
+      download.download = `${username}_avatar.png`;
+      download.style.display = 'inline-block';
+    }
+  </script>
+
+</body>
+</html>
